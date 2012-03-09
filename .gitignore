@@ -2,9 +2,10 @@
 *.mf
 *.xml
 
-*.jar
-*.war
-*.ear
-
-/List/
-/Stack/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
