@@ -6,5 +6,5 @@
 *.war
 *.ear
 
-/nbproject/
-/build/
+/List/
+/Stack/
