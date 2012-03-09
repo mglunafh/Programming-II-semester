@@ -1,1 +1,7 @@
-!*.java
+*.class
+*.mf
+*.xml
+
+*.jar
+*.war
+*.ear
