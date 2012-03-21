@@ -1,22 +1,52 @@
-
 package stack;
 
+/**
+ *
+ * @author Dev
+ */
 public class Stack {
 
-    public void push(int val) {
-        StackElement newHead = new StackElement(val, this.head);
+    /**
+     * @return true in case of empty stack
+     *
+     */
+    public boolean isEmpty() {
+        return (null == this.head);
+    }
+
+    /**
+     *
+     * @param value which is been put into the stack.
+     */
+    public void push(int value) {
+        StackElement newHead = new StackElement(value, this.head);
         this.head = newHead;
     }
 
-    public int pop() {
-        int top = this.head.value;
+    /**
+     *
+     * @throws EmptyStackException raises, when stack is empty.
+     */
+    public void pop() throws EmptyStackException {
+        if (this.isEmpty()) {
+            throw new EmptyStackException();
+        }
         this.head = this.head.next;
-        return top;
     }
 
-    public int top() {
+    /**
+     *
+     * @return a value on top of the stack.
+     * @throws EmptyStackException raises, when method tries to put a value from
+     * empty stack.
+     */
+    public int top() throws EmptyStackException {
+        if (this.isEmpty()) {
+            throw new EmptyStackException();
+        }
         return this.head.value;
     }
+
     private class StackElement {
 
         public StackElement(int value, StackElement next) {
@@ -26,9 +56,12 @@ public class Stack {
         private int value;
         private StackElement next;
     }
-
     private StackElement head;
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
     }
 }
