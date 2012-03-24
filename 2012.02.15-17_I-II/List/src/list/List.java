@@ -4,36 +4,49 @@ public class List {
 
     public class Position {
 
-        /// Returns the position of the next element of list.
-        public Position getNext() throws InvalidPosition {
-               if (null == this.label.next.pos)
-                   throw new InvalidPosition();
+        /**
+         *
+         * @return the position of the next element of list.
+         * @throws InvalidPosition if the next position is null.
+         */
+        public Position getNext() {
+//            if (null == this.label.next.pos) {
+            //              throw new InvalidPosition();
+            //        }
             return this.label.next.pos;
         }
 
-        /// Returns the element on current position. 
+        /**
+         *
+         * @return the element on current position. *
+         */
         public int getValue() {
             return this.label.value;
         }
 
-        /// Adds a value to the list after current position.
+        /**
+         *
+         * @param value which will be added to the next position.
+         */
         private void addToNext(int value) {
             ListElement theNext = new ListElement(value);
             theNext.next = this.label.next;
             this.label.next = theNext;
         }
 
-        /// 'Deletes' next element of list.
+        /**
+         *
+         * @throws InvalidPosition after a try to delete non-existing element.
+         */
         private void deleteNext() throws InvalidPosition {
             this.label.next = this.label.next.next;
-                throw new InvalidPosition();
+            throw new InvalidPosition();
 
         }
 
         private Position(ListElement current) {
             this.label = current;
         }
-        
         private ListElement label;
     }
 
@@ -44,29 +57,52 @@ public class List {
         this.count = 0;
     }
 
+    /**
+     *
+     * @return true if list is empty, and false if not.
+     */
     public boolean isEmpty() {
         return (0 == this.count);
     }
 
-    /// Returns a position of a head of list.
+    /**
+     *
+     * @return a position of a head of list.
+     * @throws EmptyListException if list is empty.
+     */
     public Position hd() throws EmptyListException {
-        if (this.isEmpty())
+        if (this.isEmpty()) {
             throw new EmptyListException();
+        }
         return this.head.pos;
     }
 
-    /// Inserts a given value into the list after the given position.
+    /**
+     * Inserts a given value into the list after the given position.
+     *
+     * @param pos
+     * @param value
+     */
     public void addToNextPosition(Position pos, int value) {
         pos.addToNext(value);
         this.count++;
     }
 
-    /// Adds a value to end of the list.
+    /**
+     * Adds a value to end of the list.
+     *
+     * @param value
+     */
     public void addToEnd(int value) {
         this.addToNextPosition(this.tail.pos, value);
     }
 
-    /// Deletes from the next position.
+    /**
+     * Deletes from the next position.
+     *
+     * @param pos - position preceding the element method will delete.
+     * @throws EndOfListException if there is nothing on next position.
+     */
     public void deleteFromNextPosition(Position pos) throws EndOfListException {
         try {
             pos.deleteNext();
