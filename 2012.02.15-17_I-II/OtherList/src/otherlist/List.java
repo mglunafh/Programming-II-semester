@@ -16,6 +16,10 @@ public class List<T> {
      */
     public class ListElement {
 
+        /**
+         * Hmm, constructor of element of list. 
+         * @param value 
+         */
         public ListElement(T value) {
             this.value = value;
         }
@@ -125,6 +129,10 @@ public class List<T> {
         }
     }
 
+    /**
+     * Deletes head of list
+     * @throws EmptyListException when list is empty.
+     */
     public void deleteHead() throws EmptyListException {
         if (this.isEmpty())
             throw new EmptyListException();
