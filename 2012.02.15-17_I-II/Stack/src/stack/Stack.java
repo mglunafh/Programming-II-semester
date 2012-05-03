@@ -6,12 +6,16 @@ package stack;
  */
 public class Stack {
 
+    Stack() {
+        this.head = new StackElement(0, null);
+    }
+
     /**
-     * @return true in case of empty stack
      *
+     * @return true in case of empty stack
      */
     public boolean isEmpty() {
-        return (null == this.head);
+        return (null == this.head.next);
     }
 
     /**
@@ -57,11 +61,4 @@ public class Stack {
         private StackElement next;
     }
     private StackElement head;
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-    }
 }
