@@ -9,6 +9,6 @@ package otherlist;
  *
  * @author FedorUvarychev
  */
-public class EndOfListException extends Exception {
+public class OutOfBoundsException extends Exception {
 
 }
