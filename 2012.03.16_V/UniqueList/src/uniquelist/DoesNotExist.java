@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package list;
+package uniquelist;
 
 /**
  *
  * @author FedorUvarychev
  */
-public class EndOfListException extends Exception {
+public class DoesNotExist extends Exception {
 
 }
