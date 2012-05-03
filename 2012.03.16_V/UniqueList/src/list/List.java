@@ -12,13 +12,14 @@ package list;
 public class List<T> {
 
     /**
-     * Basic structure of list.
+     * Basic structure of list, contains value, 
+     *      reference to next and previous elements in the list.
      */
     public class ListElement {
 
         /**
-         * Hmm, constructor of element of list. 
-         * @param value 
+         * Hmm, constructor of element of list.
+         * @param value
          */
         public ListElement(T value) {
             this.value = value;
@@ -34,7 +35,7 @@ public class List<T> {
 
         /**
          *
-         * @return the position of the next element of list.
+         * @return the position of the next element in list.
          */
         public ListElement getNext() {
             return this.next;
@@ -42,31 +43,35 @@ public class List<T> {
 
         /**
          *
-         * @param value will be inserted into list after the given position.
+         * @return the position of the previous element.
          */
-        public void addNext(T value) {
+        public ListElement getPrev() {
+            return this.prev;
+        }
+
+        /**
+         *
+         * @param value will be inserted into list after the current position.
+         */
+        private void addNext(T value) {
             ListElement newElement = new ListElement(value);
             newElement.next = this.next;
             this.next = newElement;
         }
 
         /**
-         * Deletes element which follows by given.
-         *
-         * @throws InvalidPositionException if the next element is null.
+         * Deletes the given element.
          */
-        public void deleteNext() throws InvalidPositionException {
-            if (null == this.next) {
-                throw new InvalidPositionException();
-            }
-            this.next = this.next.next;
+        public void delete() {
+            this.prev.next = this.next;
         }
         private T value;
         private ListElement next;
+        private ListElement prev;
     }
 
     /**
-     * Constructor creates a sentinel for a new list..
+     * Constructor creates a sentinel for a new list.
      */
     public List() {
         ListElement sentinel = new ListElement(null);
@@ -104,6 +109,21 @@ public class List<T> {
     }
 
     /**
+     * Inserts a given value before the current head of the list.
+     *
+     * @param value
+     */
+    public void AddToHead(T value) {
+        if (null == this.head.next)
+            this.addToEnd(value);
+        else {
+            ListElement newHead = new ListElement(value);
+            newHead.next = this.head.next;
+            this.head.next = newHead;
+        }
+    }
+
+    /**
      * Add element to end of list.
      *
      * @param value
@@ -115,7 +135,8 @@ public class List<T> {
     }
 
     /**
-     * Inserts a value after a given position.
+     * Inserts a value after a given position. This method cannot insert a value
+     * before the head of list.
      *
      * @param pos
      * @param value
@@ -130,27 +151,13 @@ public class List<T> {
     }
 
     /**
-     * Deletes head of list
-     * @throws EmptyListException when list is empty.
-     */
-    public void deleteHead() throws EmptyListException {
-        if (this.isEmpty())
-            throw new EmptyListException();
-        this.head = this.head.next;
-    }
-    /**
-     * Deletes an element from the list after the given position.
+     * Deletes an element from the given position in the list.
      *
      * @param pos
-     * @throws EndOfListException when element 'pos' is last in the list.
+     * @throws OutOfBoundsException when element 'pos' is last in the list.
      */
-    public void delete(ListElement pos) throws EndOfListException {
-        try {
-            pos.deleteNext();
-        } catch (InvalidPositionException e) {
-            e.printStackTrace();
-            throw new EndOfListException();
-        }
+    public void delete(ListElement pos) throws OutOfBoundsException {
+        pos.delete();
         this.count--;
     }
     private ListElement head;
