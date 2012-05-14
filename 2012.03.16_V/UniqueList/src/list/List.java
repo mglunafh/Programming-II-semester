@@ -12,13 +12,14 @@ package list;
 public class List<T> {
 
     /**
-     * Basic structure of list, contains value, 
-     *      reference to next and previous elements in the list.
+     * Basic structure of list, contains value, reference to next and previous
+     * elements in the list.
      */
     public class ListElement {
 
         /**
          * Hmm, constructor of element of list.
+         *
          * @param value
          */
         public ListElement(T value) {
@@ -62,8 +63,13 @@ public class List<T> {
         /**
          * Deletes the given element.
          */
-        public void delete() {
-            this.prev.next = this.next;
+        private void delete() {
+            ListElement nextElement = this.next;
+            ListElement prevElement = this.prev;
+            prevElement.next = nextElement;
+            if (null != nextElement) {
+                nextElement.prev = prevElement;
+            }
         }
         private T value;
         private ListElement next;
@@ -114,9 +120,9 @@ public class List<T> {
      * @param value
      */
     public void AddToHead(T value) {
-        if (null == this.head.next)
+        if (null == this.head.next) {
             this.addToEnd(value);
-        else {
+        } else {
             ListElement newHead = new ListElement(value);
             newHead.next = this.head.next;
             this.head.next = newHead;
@@ -154,9 +160,8 @@ public class List<T> {
      * Deletes an element from the given position in the list.
      *
      * @param pos
-     * @throws OutOfBoundsException when element 'pos' is last in the list.
      */
-    public void delete(ListElement pos) throws OutOfBoundsException {
+    public void delete(ListElement pos) {
         pos.delete();
         this.count--;
     }
