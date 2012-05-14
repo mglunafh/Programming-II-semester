@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package otherlist;
+package list;
 
 /**
  *
@@ -12,14 +12,13 @@ package otherlist;
 public class List<T> {
 
     /**
-     * Basic structure of list, contains value, reference to next and previous
-     * elements in the list.
+     * Basic structure of list, contains value, 
+     *      reference to next and previous elements in the list.
      */
     public class ListElement {
 
         /**
          * Hmm, constructor of element of list.
-         *
          * @param value
          */
         public ListElement(T value) {
@@ -52,25 +51,19 @@ public class List<T> {
 
         /**
          *
-         * @param value will be inserted into list after the given position.
+         * @param value will be inserted into list after the current position.
          */
-        public void addNext(T value) {
+        private void addNext(T value) {
             ListElement newElement = new ListElement(value);
             newElement.next = this.next;
-            newElement.prev = this;
             this.next = newElement;
         }
 
         /**
          * Deletes the given element.
          */
-        private void delete() {
-            ListElement nextElement = this.next;
-            ListElement prevElement = this.prev;
-            prevElement.next = nextElement;
-            if (null != nextElement) {
-                nextElement.prev = prevElement;
-            }
+        public void delete() {
+            this.prev.next = this.next;
         }
         private T value;
         private ListElement next;
@@ -121,9 +114,9 @@ public class List<T> {
      * @param value
      */
     public void AddToHead(T value) {
-        if (null == this.head.next) {
+        if (null == this.head.next)
             this.addToEnd(value);
-        } else {
+        else {
             ListElement newHead = new ListElement(value);
             newHead.next = this.head.next;
             this.head.next = newHead;
@@ -143,7 +136,7 @@ public class List<T> {
 
     /**
      * Inserts a value after a given position. This method cannot insert a value
-     * before the head of list, use method addToHead instead.
+     * before the head of list.
      *
      * @param pos
      * @param value
@@ -161,8 +154,9 @@ public class List<T> {
      * Deletes an element from the given position in the list.
      *
      * @param pos
+     * @throws OutOfBoundsException when element 'pos' is last in the list.
      */
-    public void delete(ListElement pos) {
+    public void delete(ListElement pos) throws OutOfBoundsException {
         pos.delete();
         this.count--;
     }
