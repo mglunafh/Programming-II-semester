@@ -27,6 +27,10 @@ public class HashTable<T> {
         this.table = new ArrayList<>(size);
     }
 
+    /**
+     * Puts a value into the hash table.
+     * @param value 
+     */
     public void add(T value) {
         int hashValue = this.hashFun.getHash(value);
         try {
@@ -36,6 +40,11 @@ public class HashTable<T> {
         }
     }
 
+    /**
+     * Tries to look for a value in the table. 
+     * @param value
+     * @return true or false, true if there is value, false if not :-<. 
+     */
     public boolean find(T value) {
         int hashValue = this.hashFun.getHash(value);
         try {
@@ -46,6 +55,10 @@ public class HashTable<T> {
         return true;
     }
 
+    /**
+     * Deletes an element. 
+     * @param value 
+     */
     public void delete(T value) {
         int hashValue = this.hashFun.getHash(value);
         List.ListElement deleted;

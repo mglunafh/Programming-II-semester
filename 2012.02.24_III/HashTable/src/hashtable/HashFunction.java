@@ -10,6 +10,10 @@ package hashtable;
  * @author FedorUvarychev
  */
 public abstract class HashFunction<T> {
+    public HashFunction (int size) {
+        this.sizeOfHashTable = size;
+    }
     
     public abstract int getHash(T obj);
+    private int sizeOfHashTable;
 }
