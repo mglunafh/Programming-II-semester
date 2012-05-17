@@ -6,7 +6,6 @@ package otherlist;
 
 import org.junit.*;
 import static org.junit.Assert.*;
-import otherlist.List.ListElement;
 
 /**
  *
@@ -60,40 +59,24 @@ public class ListTest {
      */
     @Test(expected = EmptyListException.class)
     public void testHd() throws EmptyListException {
-        ListElement result = instance.hd();
+        instance.hd();
     }
 
     /**
-     * Test of hd method, of class List, and getValue method, of class
-     * ListElement.
-     */
-    @Test
-    public void testHdAndGetValue() {
-        String expResult = "ololo";
-        instance.addToEnd("ololo");
-        try {
-            String result = instance.hd().getValue();
-            assertEquals(expResult, result);
-        } catch (EmptyListException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Test of AddToHead method, of class List.
+     * Test of addToHead method, of class List.
      */
     @Test
     public void testAddToHead() throws EmptyListException {
-        List instance = new List<Integer>();
-        instance.AddToHead(15);
+        List<Integer> instance = new List<>();
+        instance.addToHead(15);
 
         assertEquals(instance.isEmpty(), false);
 
-        instance.AddToHead(138);
-        assertEquals(138, instance.hd().getValue());
-        instance.AddToHead(359);
+        instance.addToHead(138);
+        assertEquals(138, (int) instance.getValue(instance.hd()));
+        instance.addToHead(359);
 
-        assertEquals(359, instance.hd().getValue());
+        assertEquals(359, (int) instance.getValue(instance.hd()));
 
     }
 
@@ -101,17 +84,15 @@ public class ListTest {
      * Test of insert method, of class List.
      */
     @Test
-    public void testInsert() {
+    public void testInsert() throws EmptyListException {
         instance.addToEnd("first");
         instance.addToEnd("second");
-        try {
-            ListElement pos = instance.hd();
-            instance.insert(pos, "third");
-            String expResult = "third";
-            assertEquals(expResult, pos.getNext().getValue());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        Object pos = instance.hd();
+        instance.insert(pos, "third");
+        String expResult = "third";
+        assertEquals(expResult, instance.getValue(instance.getNextPosition(pos)));
+
     }
 
     /**
@@ -126,51 +107,32 @@ public class ListTest {
      * Checking, if count of list increments.
      */
     @Test
-    public void testLengthAfterInsert() {
+    public void testLengthAfterInsert() throws EmptyListException {
         instance.addToEnd("first");
-        try {
-            ListElement pos = instance.hd();
-            instance.insert(pos, "second");
-            instance.insert(pos, "third");
-            assertEquals(3, instance.length());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * Test of addToEnd method, of class List.
-     */
-    @Test
-    public void testAddToEnd() {
-        instance.addToEnd("Voarmeprebre");
-        instance.addToEnd("Uatr");
-        instance.addToEnd("Vermyapre");
-        try {
-            ListElement pos = instance.hd();
-            assertEquals("Vermyapre", pos.getNext().getNext().getValue());
-        } catch (Exception r) {
-            r.printStackTrace();
-        }
+        Object pos = instance.hd();
+        instance.insert(pos, "second");
+        instance.insert(pos, "third");
+        assertEquals(3, instance.length());
+
     }
 
     /**
      * Test of delete method.
      */
     @Test
-    public void testDelete() throws  EmptyListException {
+    public void testDelete() throws EmptyListException {
         instance.addToEnd("first");
         instance.addToEnd("second");
         instance.addToEnd("third");
 
         assertEquals(false, instance.isEmpty());
-        
-        ListElement pos = instance.hd();
-        instance.delete(pos);
-        
-        assertEquals("second", instance.hd().getValue());
-        assertEquals("third", instance.hd().getNext().getValue());
 
+        Object pos = instance.hd();
+        instance.delete(pos);
+
+        assertEquals("second", instance.getValue(instance.hd()));
+        assertEquals("third", instance.getValue(instance.getNextPosition(instance.hd())));
     }
     private List<String> instance;
 }

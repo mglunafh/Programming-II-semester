@@ -15,7 +15,7 @@ public class List<T> {
      * Basic structure of list, contains value, reference to next and previous
      * elements in the list.
      */
-    public class ListElement {
+    private class ListElement {
 
         /**
          * Hmm, constructor of element of list.
@@ -108,19 +108,30 @@ public class List<T> {
      * @return a position of head of list.
      * @throws EmptyListException when list is empty.
      */
-    public ListElement hd() throws EmptyListException {
+    public Object hd() throws EmptyListException {
         if (this.isEmpty()) {
             throw new EmptyListException();
         }
         return this.head.next;
     }
+    
+    
+    public T getValue(Object position) {
+        ListElement temp = (ListElement)position;
+        return temp.getValue();
+    }
+    
+    public Object getNextPosition(Object position) {
+        ListElement temp =(ListElement)position;
+        return temp.next; 
+    } 
 
     /**
      * Inserts a given value before the current head of the list.
      *
      * @param value
      */
-    public void AddToHead(T value) {
+    public void addToHead(T value) {
         if (null == this.head.next) {
             this.addToEnd(value);
         } else {
@@ -129,7 +140,7 @@ public class List<T> {
             this.head.next = newHead;
         }
     }
-
+    
     /**
      * Add element to end of list.
      *
@@ -148,11 +159,11 @@ public class List<T> {
      * @param pos
      * @param value
      */
-    public void insert(ListElement pos, T value) {
-        if (null == pos.next) {
+    public void insert(Object pos, T value) {
+        if (null == ((ListElement)pos).next) {
             addToEnd(value);
         } else {
-            pos.addNext(value);
+            ((ListElement)pos).addNext(value);
             this.count++;
         }
     }
@@ -162,8 +173,8 @@ public class List<T> {
      *
      * @param pos
      */
-    public void delete(ListElement pos) {
-        pos.delete();
+    public void delete(Object pos) {
+        ((ListElement)pos).delete();
         this.count--;
     }
     private ListElement head;
