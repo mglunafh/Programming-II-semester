@@ -7,8 +7,8 @@ package factorial;
 public class Factorial {
 
     /**
-     * @param n --- integer non-negative number
-     * @return its factorial
+     * @param n --- integer non-negative number.
+     * @return its factorial.
      */
     public static int factorial(int n) {
         if (n < 0) {
