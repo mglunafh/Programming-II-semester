@@ -15,7 +15,7 @@ public class List<T> {
      * Basic structure of list, contains value, reference to next and previous
      * elements in the list.
      */
-    public class ListElement {
+    private class ListElement {
 
         /**
          * Hmm, constructor of element of list.
@@ -52,11 +52,12 @@ public class List<T> {
 
         /**
          *
-         * @param value will be inserted into list after the current position.
+         * @param value will be inserted into list after the given position.
          */
-        private void addNext(T value) {
+        public void addNext(T value) {
             ListElement newElement = new ListElement(value);
             newElement.next = this.next;
+            newElement.prev = this;
             this.next = newElement;
         }
 
@@ -107,53 +108,33 @@ public class List<T> {
      * @return a position of head of list.
      * @throws EmptyListException when list is empty.
      */
-    public ListElement hd() throws EmptyListException {
+    public Object hd() throws EmptyListException {
         if (this.isEmpty()) {
             throw new EmptyListException();
         }
         return this.head.next;
     }
-
-    /**
-     * Inserts a given value before the current head of the list.
-     *
-     * @param value
-     */
-    public void AddToHead(T value) {
-        if (null == this.head.next) {
-            this.addToEnd(value);
-        } else {
-            ListElement newHead = new ListElement(value);
-            newHead.next = this.head.next;
-            this.head.next = newHead;
-        }
+    
+    
+    public T getValue(Object position) {
+        ListElement temp = (ListElement)position;
+        return temp.getValue();
     }
-
+    
+    public Object getNextPosition(Object position) {
+        ListElement temp =(ListElement)position;
+        return temp.next; 
+    } 
+    
     /**
      * Add element to end of list.
      *
      * @param value
      */
-    public void addToEnd(T value) {
+    public void addToList(T value) {
         this.tail.addNext(value);
         this.count++;
         this.tail = this.tail.next;
-    }
-
-    /**
-     * Inserts a value after a given position. This method cannot insert a value
-     * before the head of list.
-     *
-     * @param pos
-     * @param value
-     */
-    public void insert(ListElement pos, T value) {
-        if (null == pos.next) {
-            addToEnd(value);
-        } else {
-            pos.addNext(value);
-            this.count++;
-        }
     }
 
     /**
@@ -161,9 +142,32 @@ public class List<T> {
      *
      * @param pos
      */
-    public void delete(ListElement pos) {
-        pos.delete();
+    public void delete(Object pos) {
+        ((ListElement)pos).delete();
         this.count--;
+    }
+    
+    
+    /**
+     * Method, which finds a given value in the list.
+     * @param value
+     * @return true, if finds, and false otherwise.
+     */
+    public boolean find(T value) {
+        Object temp;
+        try {
+            temp = this.hd();
+        } catch (EmptyListException e) {
+            return false;
+        }
+
+        while (temp != null) {
+            if (this.getValue(temp) == value) {
+                return true;
+            }
+            temp = this.getNextPosition(temp);
+        }
+        return false;
     }
     private ListElement head;
     private ListElement tail;
