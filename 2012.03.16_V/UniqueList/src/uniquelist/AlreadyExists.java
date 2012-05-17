@@ -9,6 +9,6 @@ package uniquelist;
  *
  * @author FedorUvarychev
  */
-public class AlreadyExists extends Exception {
+public class AlreadyExists extends RuntimeException {
 
 }

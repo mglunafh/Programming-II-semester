@@ -4,7 +4,7 @@
  */
 package uniquelist;
 
-import list.List.ListElement;
+import list.DoesNotExist;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -55,7 +55,7 @@ public class UniqueListTest {
      * Test of find method, of class UniqueList.
      */
     @Test
-    public void testFind() throws DoesNotExist, AlreadyExists {
+    public void testFind() throws AlreadyExists {
         
         UniqueList<String> instance = new UniqueList<String>();
         
@@ -63,17 +63,18 @@ public class UniqueListTest {
         instance.addToList("second");
         instance.addToList("third");
         
-        assertEquals("first", instance.find("first").getValue());
-        assertEquals("second", instance.find("second").getValue());
-        assertEquals("third", instance.find("third").getValue());
+        
+        assertEquals(true, instance.find("first"));
+        assertEquals(true, instance.find("second"));
+        assertEquals(true, instance.find("third"));
     }
     
     /**
      * Test of find method, when we try to find what the list does not have.
      */
-    @Test(expected = DoesNotExist.class) 
+    @Test
     public void testFindNonExistingValue() throws DoesNotExist {
         UniqueList<String> instance = new UniqueList<String>();
-        instance.find("fourth");
+        assertEquals(false, instance.find("fourth"));
     }
 }
