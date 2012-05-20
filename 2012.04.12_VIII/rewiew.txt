@@ -1,0 +1,18 @@
+MyPriorityQueue.java
+There is no javadoc.
+20 --- optional line.
+62 --- method "dequeue" cannot be approved. It is declared to throw exception of general type, actually, "Exception", and this will not help in debugging programme, using this class. Then, in 64 line method throws RuntimeException.
+Comments to "dequeue" method deceive: it returns an element with maximal priority, because they are put in queue by 'enqueue' method in order values with less priorities are situated farther than values with greater ones. Also it makes sense where to put elements with the same order, and this implementation does not satisfy a principle "first to come --- first to go". 
+This queue is never "empty" --- it's head is sentinel which is created by constructor, --- thus 'dequeue' method might bring you the NullPointerException, in case when queue is really empty: 66 and 67 lines state that method works with fields of ListElement 'tmp' and the latter can be null.
+
+EmptyQueueException.java
+Its content is never used. Anyone, who'll open and read this file, will lose his time.
+
+Tests
+Firstly, all tests fail.
+47 and 48 --- it does not make sense to put the same values, 'cause we cannot understand does the method works correctly.
+74 --- as the test catches all exceptions, an illusion of correct work of 'dequeue' method would appear. Actually calling the 'dequeue' method makes the NullPointerException raise in case of empty queue.
+
+Main.java
+18 --- I don't know, it is bad or good to write, but this line can't be compiled. Oh, i know, it is not good practice in general to commit uncompiling code. 
+'try-catch' already exists, and there's no statements which are able to throw exception -> main throwing exception is quite unnesessary.
