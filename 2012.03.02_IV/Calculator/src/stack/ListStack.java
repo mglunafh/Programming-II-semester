@@ -4,7 +4,7 @@ package stack;
  *
  * @author Dev
  */
-public class ListStack {
+public class ListStack extends Stack{
 
     ListStack() {
         this.head = new StackElement(0, null);
@@ -14,6 +14,7 @@ public class ListStack {
      *
      * @return true in case of empty stack
      */
+    @Override
     public boolean isEmpty() {
         return (null == this.head.next);
     }
@@ -22,6 +23,7 @@ public class ListStack {
      *
      * @param value which is been put into the stack.
      */
+    @Override
     public void push(int value) {
         StackElement newHead = new StackElement(value, this.head);
         this.head = newHead;
@@ -31,6 +33,7 @@ public class ListStack {
      *
      * @throws EmptyStackException raises, when stack is empty.
      */
+    @Override
     public void pop() throws EmptyStackException {
         if (this.isEmpty()) {
             throw new EmptyStackException();
@@ -44,6 +47,7 @@ public class ListStack {
      * @throws EmptyStackException raises, when method tries to put a value from
      * empty stack.
      */
+    @Override
     public int top() throws EmptyStackException {
         if (this.isEmpty()) {
             throw new EmptyStackException();
@@ -53,7 +57,12 @@ public class ListStack {
 
     private class StackElement {
 
-        public StackElement(int value, StackElement next) {
+        /**
+         * Inserts the new StackElement before element 'next'.
+         * @param value
+         * @param next 
+         */
+        private StackElement(int value, StackElement next) {
             this.value = value;
             this.next = next;
         }
