@@ -1,15 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package otherlist;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 /**
  *
  * @author Fedor Uvarychev
  * @param <T> class, elements of which are collected in list.
  */
-public class List<T> {
+public class List<T> implements Iterable<T> {
 
     /**
      * Basic structure of list, contains value, reference to next and previous
@@ -114,17 +112,26 @@ public class List<T> {
         }
         return this.head.next;
     }
-    
-    
+
+    /**
+     *
+     * @param position
+     * @return a value on given position.
+     */
     public T getValue(Object position) {
-        ListElement temp = (ListElement)position;
+        ListElement temp = (ListElement) position;
         return temp.getValue();
     }
-    
+
+    /**
+     *
+     * @param position
+     * @return a reference to the next position.
+     */
     public Object getNextPosition(Object position) {
-        ListElement temp =(ListElement)position;
-        return temp.next; 
-    } 
+        ListElement temp = (ListElement) position;
+        return temp.next;
+    }
 
     /**
      * Inserts a given value before the current head of the list.
@@ -140,7 +147,7 @@ public class List<T> {
             this.head.next = newHead;
         }
     }
-    
+
     /**
      * Add element to end of list.
      *
@@ -160,10 +167,10 @@ public class List<T> {
      * @param value
      */
     public void insert(Object pos, T value) {
-        if (null == ((ListElement)pos).next) {
+        if (null == ((ListElement) pos).next) {
             addToEnd(value);
         } else {
-            ((ListElement)pos).addNext(value);
+            ((ListElement) pos).addNext(value);
             this.count++;
         }
     }
@@ -174,9 +181,60 @@ public class List<T> {
      * @param pos
      */
     public void delete(Object pos) {
-        ((ListElement)pos).delete();
+        ((ListElement) pos).delete();
         this.count--;
     }
+    
+    /**
+     * Method, returning an iterator of list.
+     * @return 
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new ListIterator();
+    }
+    
+    /**
+     * Implementation of iterator for this collection.
+     * Overrided 'remove', 'next' and 'hasNext' methods only.
+     */
+    private class ListIterator implements Iterator<T> {
+        
+        public ListIterator() {
+            this.iter = head;
+        }
+        
+        /**
+         * Removeth awaye the element from hys position.
+         */
+        @Override
+        public void remove() {
+            ListElement temp = this.iter.next;
+            this.iter.delete();
+            this.iter = temp;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return (null != this.iter.next);
+        }
+        
+        
+        @Override
+        public T next() {
+            if (!this.hasNext())
+                throw new NoSuchElementException();
+            ListElement temp = this.iter;
+            this.iter = this.iter.next;
+            return temp.getValue();
+        }
+        
+        /**
+         * Cursor to current element in the list.
+         */
+        private ListElement iter;
+    }
+            
     private ListElement head;
     private ListElement tail;
     private int count;
