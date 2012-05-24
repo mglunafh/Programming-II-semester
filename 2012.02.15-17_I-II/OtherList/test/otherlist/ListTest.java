@@ -4,8 +4,11 @@
  */
 package otherlist;
 
-import org.junit.*;
+import java.util.NoSuchElementException;
 import static org.junit.Assert.*;
+import org.junit.*;
+import otherlist.List.ListIterator;
+
 
 /**
  *
@@ -26,7 +29,7 @@ public class ListTest {
 
     @Before
     public void setUp() {
-        instance = new List<String>();
+        instance = new List<>();
     }
 
     @After
@@ -67,16 +70,16 @@ public class ListTest {
      */
     @Test
     public void testAddToHead() throws EmptyListException {
-        List<Integer> instance = new List<>();
-        instance.addToHead(15);
+        List<Integer> inst = new List<>();
+        inst.addToHead(15);
 
-        assertEquals(instance.isEmpty(), false);
+        assertEquals(inst.isEmpty(), false);
 
-        instance.addToHead(138);
-        assertEquals(138, (int) instance.getValue(instance.hd()));
-        instance.addToHead(359);
+        inst.addToHead(138);
+        assertEquals(138, (int) inst.getValue(inst.hd()));
+        inst.addToHead(359);
 
-        assertEquals(359, (int) instance.getValue(instance.hd()));
+        assertEquals(359, (int) inst.getValue(inst.hd()));
 
     }
 
@@ -134,5 +137,51 @@ public class ListTest {
         assertEquals("second", instance.getValue(instance.hd()));
         assertEquals("third", instance.getValue(instance.getNextPosition(instance.hd())));
     }
+
+    /**
+     * Test of 'iterator' method, of class List.
+     */
+    @Test
+    public void testIterator() throws EmptyListException {
+        
+        for (int i = 1; i < 10; i++) {
+            instance.addToEnd("" + i);
+        }
+        ListIterator it = instance.iterator();
+
+        System.out.println("first way to print.");
+        for (String i : instance) {
+            System.out.format("%s ", i);
+        }
+
+        System.out.println("\nsecond way to print.");
+        while (it.hasNext()) {
+            System.out.format("%s ", it.next());
+        }
+
+        System.out.println("\nthird way to print.");
+        System.out.println(instance.length());
+        Object temp = instance.hd();
+        int i = 0;
+        while (i < 30) {
+            try {
+                System.out.format("%s ", instance.getValue(temp));
+                temp = instance.getNextPosition(temp);
+                i++;
+            } catch (NullPointerException e) {
+                break;
+            }
+        }
+        
+        fail("lololol, как добраться до последнего элемента?");
+    }
+    
+    /**
+     * test if method 'iterator' throws exception.
+     */
+    @Test(expected = NoSuchElementException.class)
+    public void testNoSuchElement () {
+        instance.iterator();
+    } 
     private List<String> instance;
 }

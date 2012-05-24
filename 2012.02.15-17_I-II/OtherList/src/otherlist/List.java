@@ -2,6 +2,7 @@ package otherlist;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /**
  *
  * @author Fedor Uvarychev
@@ -184,26 +185,33 @@ public class List<T> implements Iterable<T> {
         ((ListElement) pos).delete();
         this.count--;
     }
-    
+
     /**
      * Method, returning an iterator of list.
-     * @return 
+     *
+     * @return
+     * @throws NoSuchElementException, if the list is empty.
      */
     @Override
-    public Iterator<T> iterator() {
-        return new ListIterator();
-    }
-    
-    /**
-     * Implementation of iterator for this collection.
-     * Overrided 'remove', 'next' and 'hasNext' methods only.
-     */
-    private class ListIterator implements Iterator<T> {
-        
-        public ListIterator() {
-            this.iter = head;
+    public ListIterator iterator() {
+        ListIterator it = new ListIterator();
+        if (!it.hasNext()) {
+            throw new NoSuchElementException();
         }
-        
+        return it;
+    }
+
+    /**
+     * Implementation of iterator for this collection. Overrided 'remove',
+     * 'next' and 'hasNext' methods only. After using "foreach" iterator becomes
+     * null.
+     */
+    public class ListIterator implements Iterator<T> {
+
+        private ListIterator() {
+            this.iter = head.next;
+        }
+
         /**
          * Removeth awaye the element from hys position.
          */
@@ -213,28 +221,26 @@ public class List<T> implements Iterable<T> {
             this.iter.delete();
             this.iter = temp;
         }
-        
+
         @Override
         public boolean hasNext() {
-            return (null != this.iter.next);
+            return (null != this.iter);
         }
-        
-        
+
         @Override
         public T next() {
-            if (!this.hasNext())
+            if (!this.hasNext()) {
                 throw new NoSuchElementException();
+            }
             ListElement temp = this.iter;
             this.iter = this.iter.next;
             return temp.getValue();
         }
-        
         /**
          * Cursor to current element in the list.
          */
         private ListElement iter;
     }
-            
     private ListElement head;
     private ListElement tail;
     private int count;
