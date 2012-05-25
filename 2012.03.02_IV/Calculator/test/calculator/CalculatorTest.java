@@ -62,7 +62,7 @@ public class CalculatorTest {
         calc.push(14);
         calc.push(88);
         calc.add();
-        assertEquals(228, calc.result());
+        assertEquals(102, calc.result());
     }
 
     /**

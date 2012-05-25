@@ -5,7 +5,7 @@
 package calculator;
 
 import stack.EmptyStackException;
-import stack.Stack;
+import stack.*;
 
 /**
  *
@@ -85,4 +85,5 @@ public class Calculator {
     }
     
     private Stack stack;
+    private char operation;
 }
