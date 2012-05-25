@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import otherlist.List.ListIterator;
 
-
 /**
  *
  * @author Fedor Uvarychev
@@ -143,45 +142,40 @@ public class ListTest {
      */
     @Test
     public void testIterator() throws EmptyListException {
-        
-        for (int i = 1; i < 10; i++) {
+
+        for (int i = 1; i < 5; i++) {
             instance.addToEnd("" + i);
         }
+        String res = "";
+        
         ListIterator it = instance.iterator();
-
-        System.out.println("first way to print.");
-        for (String i : instance) {
-            System.out.format("%s ", i);
-        }
-
         System.out.println("\nsecond way to print.");
         while (it.hasNext()) {
-            System.out.format("%s ", it.next());
-        }
-
-        System.out.println("\nthird way to print.");
-        System.out.println(instance.length());
-        Object temp = instance.hd();
-        int i = 0;
-        while (i < 30) {
-            try {
-                System.out.format("%s ", instance.getValue(temp));
-                temp = instance.getNextPosition(temp);
-                i++;
-            } catch (NullPointerException e) {
-                break;
-            }
+            res += it.next() + " ";
         }
         
-        fail("lololol, как добраться до последнего элемента?");
+        assertEquals("1 2 3 4 ", res);
+
     }
-    
+
+    @Test
+    public void testForEach() throws EmptyListException {
+        for (int i = 1; i < 5; i++) {
+            instance.addToEnd("" + i);
+        }
+        String res = "";
+        for (String i : instance) {
+            res += i + " ";
+        }
+        
+         assertEquals("1 2 3 4 ", res);
+    }
     /**
      * test if method 'iterator' throws exception.
      */
     @Test(expected = NoSuchElementException.class)
-    public void testNoSuchElement () {
+    public void testNoSuchElement() {
         instance.iterator();
-    } 
+    }
     private List<String> instance;
 }

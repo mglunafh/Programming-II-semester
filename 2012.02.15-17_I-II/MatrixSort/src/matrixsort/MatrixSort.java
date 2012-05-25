@@ -47,6 +47,11 @@ public class MatrixSort {
 
     }
 
+    /**
+     * Sorts the columns of matrix in lexicographical order, 
+     * using the choice sort. 
+     * @param matrix 
+     */
     public static void sort(int[][] matrix) {
         for (int i = 0; i < matrix[0].length; ++i) {
             int minIndex = i;
@@ -59,6 +64,11 @@ public class MatrixSort {
         }
     }
 
+    /**
+     *  Prints matrix into string.
+     * @param matrix
+     * @return 
+     */
     public static String print(int[][] matrix) {
         String result = "";
         for (int i = 0; i < matrix.length; ++i) {
