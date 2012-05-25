@@ -11,9 +11,9 @@ package hashtable;
  */
 public abstract class HashFunction<T> {
     public HashFunction (int size) {
-        this.sizeOfHashTable = size;
+        this.capacity = size;
     }
     
     public abstract int getHash(T obj);
-    private int sizeOfHashTable;
+    protected int capacity;
 }

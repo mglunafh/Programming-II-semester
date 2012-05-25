@@ -8,13 +8,17 @@ package hashtable;
  *
  * @author FedorUvarychev
  */
-public class SimpleHashFunction<String> extends HashFunction<String> {
+public class SimpleHashFunction extends HashFunction<String> {
 
-    public SimpleHashFunction (int size) {
-        super(size);
+    public SimpleHashFunction (int capacity) {
+        super(capacity);
     }
     @Override
     public int getHash(String str) {
-        return 15 % this.sizeOfHashTable;
+        int result = 0;
+        for (int i = 0; i < str.length(); ++i) {
+            result += str.codePointAt(i);
+        } 
+       return result % this.capacity;
     }
 }

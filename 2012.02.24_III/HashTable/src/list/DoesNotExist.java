@@ -9,6 +9,6 @@ package list;
  *
  * @author FedorUvarychev
  */
-public class OutOfBoundsException extends Exception {
+public class DoesNotExist extends Exception {
 
 }

@@ -4,21 +4,27 @@
  */
 package list;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.lang.UnsupportedOperationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Fedor Uvarychev
  * @param <T> class, elements of which are collected in list.
  */
-public class List<T> {
+public class List<T> implements Iterable<T> {
 
     /**
-     * Basic structure of list, contains value, 
-     *      reference to next and previous elements in the list.
+     * Basic structure of list, contains value, reference to next and previous
+     * elements in the list.
      */
-    public class ListElement {
+    private class ListElement {
 
         /**
          * Hmm, constructor of element of list.
+         *
          * @param value
          */
         public ListElement(T value) {
@@ -51,19 +57,26 @@ public class List<T> {
 
         /**
          *
-         * @param value will be inserted into list after the current position.
+         * @param value will be inserted into list after the given position.
          */
-        private void addNext(T value) {
+        public void addNext(T value) {
             ListElement newElement = new ListElement(value);
             newElement.next = this.next;
+            newElement.prev = this;
             this.next = newElement;
         }
 
         /**
          * Deletes the given element.
          */
-        public void delete() {
-            this.prev.next = this.next;
+        private void delete() {
+            ListElement nextElement = this.next;
+            ListElement prevElement = this.prev;
+            prevElement.next = nextElement;
+            if (null != nextElement) {
+                nextElement.prev = prevElement;
+            }
+            count--;
         }
         private T value;
         private ListElement next;
@@ -97,68 +110,106 @@ public class List<T> {
     }
 
     /**
-     *
-     * @return a position of head of list.
-     * @throws EmptyListException when list is empty.
-     */
-    public ListElement hd() throws EmptyListException {
-        if (this.isEmpty()) {
-            throw new EmptyListException();
-        }
-        return this.head.next;
-    }
-
-    /**
-     * Inserts a given value before the current head of the list.
-     *
-     * @param value
-     */
-    public void AddToHead(T value) {
-        if (null == this.head.next)
-            this.addToEnd(value);
-        else {
-            ListElement newHead = new ListElement(value);
-            newHead.next = this.head.next;
-            this.head.next = newHead;
-        }
-    }
-
-    /**
      * Add element to end of list.
      *
      * @param value
      */
-    public void addToEnd(T value) {
+    public void addToList(T value) {
         this.tail.addNext(value);
         this.count++;
         this.tail = this.tail.next;
     }
 
     /**
-     * Inserts a value after a given position. This method cannot insert a value
-     * before the head of list.
+     * Deletes an element from the given position in the list.
      *
      * @param pos
-     * @param value
      */
-    public void insert(ListElement pos, T value) {
-        if (null == pos.next) {
-            addToEnd(value);
-        } else {
-            pos.addNext(value);
-            this.count++;
+    public void delete(Object pos) {
+        ((ListElement) pos).delete();
+    }
+
+    /**
+     * Method, which finds a given value in the list.
+     *
+     * @param value
+     * @return Object postion, if finds, and null otherwise.
+     */
+    public Object find(T value) {
+        try {
+            ListIterator it = this.iterator();
+            while (it.hasNext()) {
+                if (it.next().equals(value) ) {
+                    return it.iter;
+                }
+            }
+            return null;
+        } catch (NoSuchElementException ex) {
+            return null;
         }
     }
 
     /**
-     * Deletes an element from the given position in the list.
+     * Method, returning an iterator of list.
      *
-     * @param pos
-     * @throws OutOfBoundsException when element 'pos' is last in the list.
+     * @return
+     * @throws NoSuchElementException, if the list is empty.
      */
-    public void delete(ListElement pos) throws OutOfBoundsException {
-        pos.delete();
-        this.count--;
+    @Override
+    public ListIterator iterator() {
+        ListIterator it = new ListIterator();
+        if (!it.hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return it;
+    }
+
+    /**
+     * Implementation of iterator for this collection. Overrided 'remove',
+     * 'next' and 'hasNext' methods only. After using "foreach" iterator becomes
+     * null.
+     */
+    public class ListIterator implements Iterator<T> {
+
+        private ListIterator() {
+            this.iter = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (null != this.iter.next);
+        }
+ 
+        /**
+         * Shifts the iterator forward, if possible, and returns value.
+         * @return the value on current position of iterator. 
+         */
+        @Override
+        public T next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException();
+            }
+            this.iter = this.iter.next;
+            return this.iter.getValue();
+        }
+
+       /**
+         * Removeth awaye the last seen element from list.
+         */
+        @Override
+        public void remove() {
+            if (head == iter) {
+                head.next.delete();
+            } else {
+                ListElement temp = iter;
+                iter = iter.next;
+                temp.delete();
+            }
+        }
+        /**
+         * Cursor to previous list element.
+         */
+        private ListElement iter;
     }
     private ListElement head;
     private ListElement tail;
